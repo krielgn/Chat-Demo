@@ -1,20 +1,26 @@
 import {Routes, Route} from 'react-router-dom'
 import Login from './pages/login'
 import Chat from './pages/chat'
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Room from './pages/room'
+import MyForm from './pages/test'
+import UserContextProvider from './contexts/UserContext'
 import './App.css'
+import UserRouter from './contexts/UserRouter'
 
 
 export default function App() {
   //const [count, setCount] = useState(0)
-
   return (
-    <Routes>
-      <Route path="/" element={<Login/>}/>
-      <Route path="/chat" element={<Chat/>}/>
-    </Routes>
+    <UserContextProvider>
+      <Routes>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/test" element={<MyForm/>}/>
+        <Route element={<UserRouter/>}>
+          <Route path="/chat" element={<Chat/>}/>
+          <Route path="/room" element={<Room/>}/>
+        </Route>
+      </Routes>
+    </UserContextProvider>
     // <>
     //   <div>
     //     <a href="https://vite.dev" target="_blank">

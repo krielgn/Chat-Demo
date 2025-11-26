@@ -5,12 +5,12 @@ interface ErrorPanelProps {
 }
 
 export default function ErrorPanel({action, message}: ErrorPanelProps) {
-    if (message){
+    if (!message){
         return <></>;
     }
     return (
         <div>
-            Error {action}: {message}
+            <b>{action} Error:</b> {message}
         </div>
     )
 }
