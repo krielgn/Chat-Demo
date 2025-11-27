@@ -18,8 +18,8 @@ export default function Login(){
         if (name == ""){
             setError("Pick a name!!!")
         }
-        
-        user.logInAction({id: 12, name: name, color: (colorRef.current?.value as ColorValueHex)});        
+        // TO DO: get userId from server
+        user.logInAction({userId: 1, name: name, color: (colorRef.current?.value as ColorValueHex)});        
     }
 
     return(

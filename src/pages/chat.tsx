@@ -1,13 +1,12 @@
-import ChatBox from "@/components/Chatbox.tsx"
-import Peer from "peerjs";
+import ChatBox from "@/components/Chatbox"
+import RoomManager from "@/components/RoomManager";
 
 export default function Chat(){
-    const peer = new Peer();
-
     return(
         <div>
             <p>This is the chat page, not done...</p>
-            <ChatBox></ChatBox>
+            <RoomManager></RoomManager>
+            <ChatBox></ChatBox>            
         </div>
     )
 }

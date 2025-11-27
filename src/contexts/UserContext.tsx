@@ -2,45 +2,65 @@ import { useContext, createContext, useState } from "react";
 import Peer from "peerjs";
 
 interface UserProps {
-    id?: number;
+    userId?: number;
     name?: string;
     color?: ColorValueHex;
-    peer?: Peer | null;
+    hostedRooms?: Peer[];
+    joinedRooms?: string[]
 }
 
 export class User implements UserProps {
-    id: number;
+    userId: number;
     name: string;
     color: ColorValueHex;
-    peer: Peer | null = null;
+    hostedRooms: Peer[] = [];
 
     constructor(props : UserProps){
-        this.id = props.id || -1;
+        this.userId = props.userId || -1;
         this.name = props.name || "";
-        this.color = props.color || "#888";
+        this.color = props.color || "#fff";
     }
 
-    connectNewUser() : number {        
-        if (this.peer != null) {
-            return -1;
-        }
+    connectNewUser() : string {
+        // let peer = this.peer;
+        // if (peer != null) {
+        //     return '';
+        // }
         
-        let userId = '-1';
-        this.peer = new Peer(Math.floor(Math.random()*999999).toString(), {
-            host: '',
-            port: 443,
-            path: '/',
-            secure: true,
-        });
-
-        this.peer.on('open', function(id) {
-            userId = id;
-            console.log("Connection established");
-
+        // let userId = '-1';
+        // peer = new Peer('', {
+        //     host: 'localhost',
+        //     port: 9000,
+        //     path: '/myApp',
+        //     secure: true,
+        // });
+        // var conn: DataConnection | null = null;
+        // peer.on('open', function(id) {
+        //     userId = id;
+        //     console.log("Connection established: ", id);
+        // });
+        // peer.on('connection', function(c) {
+        //     if (conn && conn.open){
+        //         c.on('open', function(){
+        //             c.send("Already connected");
+        //             setTimeout(function() {c.close();}, 500);
+        //         });
+        //     }
+        //     conn = c
+        //     console.log("Connected to: " + conn.peer);
             
-        });
+        // });
+        // peer.on('disconnected', function(){
+        //     peer.reconnect();
+        // });
+        // peer.on('close', function(){
+            
+        // });
+        // peer.on('error', function(error){
+        //     console.log(error);
+        // });
         
-        return 0;
+        return ""// userId;
     }
 }
 
@@ -57,10 +77,10 @@ const UserContext = createContext<UserContextProps>({user: new User({}), logInAc
 const UserContextProvider = ({children}: ProviderProps) => {
     const [user, setUser] = useState(new User({}));
     
-    const logInAction = ({id, name, color}: UserProps) =>{
-        if (user.id == -1){
+    const logInAction = ({userId, name, color}: UserProps) =>{
+        if (user.userId == -1){
             setUser(new User({
-                id: id,
+                userId: userId,
                 name: name,
                 color: color
             }));

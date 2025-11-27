@@ -1,0 +1,12 @@
+Users will be able to make (host) chat rooms for others to join
+
+Chatroom page:
+    Host Button / logic
+        One user can have multiple rooms
+    List of rooms
+    Join Button
+
+Chat page (Side by side with Chatroom?)
+
+Server
+    Needs to return / store list of rooms
