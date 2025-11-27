@@ -1,11 +1,11 @@
 import ChatBox from "@/components/Chatbox"
-import RoomManager from "@/components/RoomManager";
+import RoomList from "@/components/RoomList";
 
 export default function Chat(){
     return(
         <div>
             <p>This is the chat page, not done...</p>
-            <RoomManager></RoomManager>
+            <RoomList></RoomList>
             <ChatBox></ChatBox>            
         </div>
     )
