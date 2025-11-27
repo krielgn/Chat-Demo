@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, type ReactNode } from "react";
 import Peer from "peerjs";
 
 interface UserProps {
@@ -21,6 +21,7 @@ export class User implements UserProps {
         this.color = props.color || "#fff";
     }
 
+    // TO DO
     connectNewUser() : string {
         // let peer = this.peer;
         // if (peer != null) {
@@ -69,12 +70,8 @@ interface UserContextProps {
     logInAction: (props : UserProps) => void;
 }
 
-interface ProviderProps {
-    children: React.ReactNode;
-}
-
 const UserContext = createContext<UserContextProps>({user: new User({}), logInAction: ()=>{}});
-const UserContextProvider = ({children}: ProviderProps) => {
+const UserContextProvider = ({children}: {children: ReactNode}) => {
     const [user, setUser] = useState(new User({}));
     
     const logInAction = ({userId, name, color}: UserProps) =>{

@@ -4,13 +4,9 @@ import { createUseStyles } from 'react-jss';
 
 const styles = createUseStyles({
     username: {
-        color: (props: ChatBoxStyleProps) => `${props.color}`
+        color: (props: {color: ColorValueHex}) => `${props.color}`
     }
 })
-
-interface ChatBoxStyleProps {
-    color?: ColorValueHex
-}
 
 interface ChatMessage {
     name: string;

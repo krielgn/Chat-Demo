@@ -1,4 +1,4 @@
-import { useState, type JSX, type MouseEvent } from "react";
+import { type ActionDispatch, type MouseEvent } from "react";
 import { createUseStyles } from "react-jss";
 
 const styles = createUseStyles({
@@ -10,30 +10,31 @@ const styles = createUseStyles({
     }
 })
 
-interface RoomListProps {
+interface RoomItemProps {
     room: Room;
+    dispatchR: ActionDispatch<any>;
 }
 
-export default function RoomListItem(props : RoomListProps){
+export default function RoomListItem({room, dispatchR}: RoomItemProps){
     const classes = styles();
     
-    const handleDeleteRoom = (evt: MouseEvent<HTMLButtonElement>) =>{
-
+    const handleDeleteRoom = (evt: MouseEvent<HTMLButtonElement>) => {
+        dispatchR({type:"delete", roomId: ""});
     }
 
-    const handleJoinRoom = (evt: MouseEvent<HTMLButtonElement>) =>{
-
+    const handleJoinRoom = (evt: MouseEvent<HTMLButtonElement>) => {
+        dispatchR({type:"join", roomId: "", userId: ""});
     }
 
-    const handleLeaveRoom = (evt: MouseEvent<HTMLButtonElement>) =>{
-
+    const handleLeaveRoom = (evt: MouseEvent<HTMLButtonElement>) => {
+        dispatchR({type:"leave", roomId: "", userId: ""});
     }
     
     return (
-        <div id={props.room.hostId} className={classes.roomListItem}>
-            {props.room.name}
-            {props.room.ownedByCurrentUser ? <button onClick={handleDeleteRoom}>Delete</button> : 
-                props.room.joinedByCurrentUser ? <button onClick={handleLeaveRoom}>Leave</button> : 
+        <div id={room.hostId} className={classes.roomListItem}>
+            {room.name}
+            {room.ownedByCurrentUser ? <button onClick={handleDeleteRoom}>Delete</button> : 
+                room.joinedByCurrentUser ? <button onClick={handleLeaveRoom}>Leave</button> : 
                     <button onClick={handleJoinRoom}>Join</button>}
         </div>
     );
