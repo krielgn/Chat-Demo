@@ -1,13 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useUserContext } from "./UserContext";
+import { useUserContext } from "@/contexts/UserContext";
 
-const UserRouter = () => {
+export default function UserRouter() {
     const currentUser = useUserContext();
-    console.log(currentUser.user);
     if (currentUser?.user.userId == -1){
         return (<Navigate to="/"></Navigate>)
     }
     return <Outlet/>;
 }
-
-export default UserRouter;

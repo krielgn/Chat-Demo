@@ -1,9 +1,10 @@
 import { useUserContext } from "@/contexts/UserContext";
-import { createRef, type MouseEvent, useReducer, } from "react";
+import { createRef, type MouseEvent, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import Popup from "reactjs-popup";
 import RoomListItem from "./RoomListItem";
-import roomReducer from "@/roomReducer";
+import {RoomContext, RoomDispatchContext} from "@/contexts/RoomContext";
+import { Room } from "@/types/room";
 
 const styles = createUseStyles({
     roomListItem2: {
@@ -15,11 +16,15 @@ const styles = createUseStyles({
 })
 
 export default function RoomList() {
-    const [roomList, roomDispatch] = useReducer(roomReducer, []);
     const userContext = useUserContext();
+    const roomContext = useContext(RoomContext);
+    const roomContextDispatch = useContext(RoomDispatchContext);
     const roomCreateRef = createRef<HTMLInputElement>();
     const classes = styles();
 
+    console.log("con")
+    //roomContextDispatch({type:"init", room: new Room("hehe", "7676", "uyuuv")})
+    //console.log(roomContext)
     const handleCreateRoom = (evt: MouseEvent<HTMLButtonElement>) => {
         let roomName = roomCreateRef.current?.value;
         if (roomName == "") {
@@ -32,7 +37,7 @@ export default function RoomList() {
 
     return (<div>
         <div>
-            {roomList.map((x: Room) => (<RoomListItem room={x} dispatchR={roomDispatch}></RoomListItem>))}
+            {roomContext.map((x: Room) => (<RoomListItem room={x} dispatchR={roomContextDispatch}></RoomListItem>))}
         </div>
         <hr/>
         <Popup trigger={<button>My popup</button>} position={"center center"} modal>

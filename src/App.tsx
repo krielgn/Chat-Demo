@@ -1,25 +1,26 @@
 import {Routes, Route} from 'react-router-dom'
 import Login from './pages/login'
 import Chat from './pages/chat'
-import Room from './pages/room'
 import MyForm from './pages/test'
 import UserContextProvider from './contexts/UserContext'
 import './App.css'
-import UserRouter from './contexts/UserRouter'
-
+import UserRouter from './pages/UserRouter'
+import RoomContextProvider from './contexts/RoomContext'
 
 export default function App() {
-  //const [count, setCount] = useState(0)
   return (
     <UserContextProvider>
-      <Routes>
-        <Route path="/" element={<Login/>}/>
-        <Route path="/test" element={<MyForm/>}/>
-        <Route element={<UserRouter/>}>
-          <Route path="/chat" element={<Chat/>}/>
-          <Route path="/room" element={<Room/>}/>
-        </Route>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="/test" element={<MyForm/>}/>
+          {/* Prevent users from skipping to chat */}
+          <Route element={<UserRouter/>} >
+            {/* Only fetch server data once user is 'logged in' */}
+            <Route element={<RoomContextProvider/>}>
+              <Route path="/chat" element={<Chat/>}/>
+            </Route>
+          </Route>
+        </Routes>
     </UserContextProvider>
     // <>
     //   <div>
