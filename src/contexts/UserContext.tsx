@@ -1,91 +1,57 @@
-import { useContext, createContext, useState, type ReactNode } from "react";
-import Peer from "peerjs";
-
-interface UserProps {
-    userId?: number;
-    name?: string;
-    color?: ColorValueHex;
-    hostedRooms?: Peer[];
-    joinedRooms?: string[]
-}
-
-export class User implements UserProps {
-    userId: number;
-    name: string;
-    color: ColorValueHex;
-    hostedRooms: Peer[] = [];
-
-    constructor(props : UserProps){
-        this.userId = props.userId || -1;
-        this.name = props.name || "";
-        this.color = props.color || "#fff";
-    }
-
-    // TO DO
-    connectNewUser() : string {
-        // let peer = this.peer;
-        // if (peer != null) {
-        //     return '';
-        // }
-        
-        // let userId = '-1';
-        // peer = new Peer('', {
-        //     host: 'localhost',
-        //     port: 9000,
-        //     path: '/myApp',
-        //     secure: true,
-        // });
-        // var conn: DataConnection | null = null;
-        // peer.on('open', function(id) {
-        //     userId = id;
-        //     console.log("Connection established: ", id);
-        // });
-        // peer.on('connection', function(c) {
-        //     if (conn && conn.open){
-        //         c.on('open', function(){
-        //             c.send("Already connected");
-        //             setTimeout(function() {c.close();}, 500);
-        //         });
-        //     }
-        //     conn = c
-        //     console.log("Connected to: " + conn.peer);
-            
-        // });
-        // peer.on('disconnected', function(){
-        //     peer.reconnect();
-        // });
-        // peer.on('close', function(){
-            
-        // });
-        // peer.on('error', function(error){
-        //     console.log(error);
-        // });
-        
-        return ""// userId;
-    }
-}
+import { deleteRoomDB, updateRoomListDB } from "@/data/dbReader";
+import { User, type UserProps } from "@/types/user";
+import { useContext, createContext, useState, type ReactNode, useEffect } from "react";
 
 interface UserContextProps {
     user: User;
     logInAction: (props : UserProps) => void;
+    updateUserRooms: (user : User) => void;
 }
 
-const UserContext = createContext<UserContextProps>({user: new User({}), logInAction: ()=>{}});
+const UserContext = createContext<UserContextProps>({user: new User(), logInAction: ()=>{}, updateUserRooms: ()=>{}});
 const UserContextProvider = ({children}: {children: ReactNode}) => {
-    const [user, setUser] = useState(new User({}));
+    const [user, setUser] = useState(new User());
     
     const logInAction = ({userId, name, color}: UserProps) =>{
-        if (user.userId == -1){
-            setUser(new User({
-                userId: userId,
-                name: name,
-                color: color
-            }));
-        }        
+        setUser(new User({
+            userId: user.userId,
+            name: name,
+            color: color,
+            updateUserHook: updateUserRooms,
+        }));
     }
 
+    const updateUserRooms = (userDetails: User) => {
+        const newUser = userDetails;
+        user.hostedRoom = userDetails.hostedRoom;
+        user.joinedRooms = userDetails.joinedRooms;
+        setUser(newUser);
+    }
+
+    useEffect(() => {
+        const onBeforeUnload = () => {
+            // Clear created room on leaving tab
+            if (user.hostedRoom){
+                console.log("un...");
+                deleteRoomDB(user.hostedRoom.roomId || "");
+                console.log("loaded");
+                // Null return clears a room on tab close
+                return null;
+            }
+            if (user.joinedRooms.length > 0){            
+                user.joinedRooms.forEach(x => {
+                    updateRoomListDB(x.roomId!, user, false);
+                });
+            }
+        }
+        window.addEventListener("beforeunload", onBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", onBeforeUnload);
+        }
+    })
+
     return (
-        <UserContext value={{user, logInAction}}>
+        <UserContext value={{user, logInAction, updateUserRooms}}>
             {children}
         </UserContext>
     );

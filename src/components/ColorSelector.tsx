@@ -4,12 +4,13 @@ import { createUseStyles }  from 'react-jss';
 
 const styles = createUseStyles({
     colorPopupLoc: {
-        position: 'relative'
+        position: 'relative',
+        display: 'block'
     },
     colorPopup: {
       position: 'absolute',
-      top: '-50px',
-      left: 175 + 'px',
+      top: '-40px',
+      left: '80px',
     },
     color: {
         background: (props: ColorSelectorStyleProps) => `${props.color}`,
@@ -42,10 +43,11 @@ interface ColorSelectorStyleProps {
 interface ColorSelectorProps {
     //onChange: Function,
     startColor?: ColorValueHex,
-    ref: RefObject<HTMLInputElement | null>
+    ref: RefObject<HTMLInputElement | null>,
+    className: string;
 }
 
- export default function ColorSelector({startColor = getRandomColor(), ref} : ColorSelectorProps) {
+ export default function ColorSelector({startColor = getRandomColor(), ref, className} : ColorSelectorProps) {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedColor, setSelectedColor] = useState(startColor);
     const classes = styles({visible: showPicker, color: selectedColor});
@@ -59,9 +61,9 @@ interface ColorSelectorProps {
         setSelectedColor(colors.hex);
     }
 
-    return (<div>
-        <button onClick={handleToggle}>
-            {showPicker ? "Close Picker" : <div className={classes.colorBlock}><div className={classes.color}></div></div>}
+    return (<div className={className}>
+        <button onClick={handleToggle} style={{width:78}}>
+            {showPicker ? "Close" : <div className={classes.colorBlock}><div className={classes.color}></div></div>}
         </button>
         {showPicker ? 
             <div className={classes.colorPopupLoc}>

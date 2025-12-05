@@ -1,52 +1,31 @@
-import { fetchRooms } from "@/data/dbReader";
-import roomReducer from "@/roomReducer";
-import { Room, } from "@/types/room";
-import { createContext, type ReactNode, useContext, useEffect, useReducer } from "react";
+import { roomReducer } from "@/components/room/roomReducer";
+import { useDatabaseFetchAllRooms } from "@/data/dbReader";
+import { createContext, useContext, useReducer, useState, type Dispatch, type SetStateAction } from "react";
 import { Outlet } from "react-router-dom";
 
-export const RoomContext = createContext<Room[]>([]);
+interface RoomContextProps {
+    roomIds: string[],
+    currentRoom: string,
+    setCurrentRoom: Dispatch<SetStateAction<string>>
+}
+export const RoomContext = createContext<RoomContextProps>({
+    roomIds: [], 
+    currentRoom: "",
+    setCurrentRoom: function (value: SetStateAction<string>): void {
+        throw new Error("Function not implemented.");
+    }
+});
 export const RoomDispatchContext = createContext<any>(null);
 
 const RoomContextProvider = () => {
     const [roomList, roomDispatch] = useReducer(roomReducer, []);
-    let ignore = false;
-    
-    useEffect(() => {
-        console.log("FETCHING")
-        if (!ignore){
+    const [currentRoom, setCurrentRoom] = useState("");
 
-            fetchRooms().then((data) => {
-                if (data){
-                    data.forEach((room: any) => {
-                        roomDispatch({type: "add", room: new Room(room.name, room.hostId, room.id)});
-                    })
-                } else {
-                    console.log("Error fetching");
-                }
-            });
-        }
-        // Prevents needless refetching
-        return () => {
-            ignore = true;
-        }
-
-        // let rooms = async function fetch(){
-        //     let query = await getDocs(collection(db, "rooms"));
-        //     let output = query.docs.map((doc) => {
-        //         let data = doc.data();
-        //         console.log("test1");
-        //         roomDispatch({type: "init", room: new Room(data.name, data.hostId, doc.id)});
-        //         return "x";
-        //     });
-        //     return output;
-        // }
-        // rooms().then().catch((err) => {
-        //     console.log("Error initializing: " + err);
-        // });        
-    }, []);
+    const roomListInitializer = (ids: string[]) => roomDispatch({type: "init", roomIdList: ids});
+    useDatabaseFetchAllRooms(roomListInitializer);
 
     return (
-        <RoomContext value={roomList}>
+        <RoomContext value={{roomIds: roomList, currentRoom, setCurrentRoom}}>
             <RoomDispatchContext value={roomDispatch}>
                 <Outlet/>
             </RoomDispatchContext>

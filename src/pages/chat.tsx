@@ -1,15 +1,23 @@
-import ChatBox from "@/components/Chatbox"
-import RoomList from "@/components/RoomList";
-import { useRoomContext } from "@/contexts/RoomContext";
+import ChatWindow from "@/components/chatbox/ChatWindow";
+import RoomList from "@/components/room/RoomList";
+import { createUseStyles } from "react-jss";
+
+const styles = createUseStyles({
+    chatMain: {
+        display: 'flex',
+        gap: '80px',
+        alignItems: 'flex-end',
+        height: '50vh'
+    }
+})
 
 export default function Chat(){
-    
-    
-    return(
-        <div>
-            <p>This is the chat page, not done...</p>
+    const css = styles();
+
+    return(<>
+        <div className={css.chatMain}>
             <RoomList></RoomList>
-            <ChatBox></ChatBox>            
+            <ChatWindow></ChatWindow>
         </div>
-    )
+    </>)
 }
