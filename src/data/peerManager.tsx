@@ -76,13 +76,19 @@ export class MyPeer {
     
     initializePeer(id: string) {
         // All IDs for connections are: userId-roomId
-        return new Peer(id, {
-            host: '192.168.0.245',
-            port: 9000,
-            path: '/myapp',
-            //debug: 3,
-            //secure: true,
-        });
+        
+        // I'll use the publicly hosted one for now, with the option to prop one up later.
+        let peerData = {};
+        if (import.meta.env.RELAY_SERVER){
+            peerData = {
+                host: import.meta.env.RELAY_SERVER,
+                port: import.meta.env.RELAY_PORT,
+                path: import.meta.env.RELAY_PATH,
+                debug: import.meta.env.RELAY_DEBUG,
+                secure: import.meta.env.RELAY_SSL,
+            }
+        }
+        return new Peer(id, peerData);
     }
 
     // For rooms this user hosts

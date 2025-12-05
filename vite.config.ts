@@ -7,6 +7,11 @@ export default defineConfig(({mode}) => {
   console.log(env)
   return {
     define: {
+      'import.meta.env.RELAY_SERVER': JSON.stringify(env.RELAY_SERVER),
+      'import.meta.env.RELAY_PORT': JSON.stringify(env.RELAY_PORT),
+      'import.meta.env.RELAY_PATH': JSON.stringify(env.RELAY_PATH),
+      'import.meta.env.RELAY_SSL': JSON.stringify(env.RELAY_SSL),
+
       'import.meta.env.FB_API_KEY': JSON.stringify(env.FB_API_KEY),
       'import.meta.env.FB_AUTH_DOMAIN': JSON.stringify(env.FB_AUTH_DOMAIN),
       'import.meta.env.FB_PROJECT_ID': JSON.stringify(env.FB_PROJECT_ID),
