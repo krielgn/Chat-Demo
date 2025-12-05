@@ -11,4 +11,4 @@ Session based WebRTC chatroom:
 Required to run:
  - Connection to Firebase
  - Signalling server for peerjs. [This one suffices](https://github.com/peers/peerjs-server)
- - Two or more clients (i.e. web browsers)
+ - Two or more clients (and/or web browsers)
