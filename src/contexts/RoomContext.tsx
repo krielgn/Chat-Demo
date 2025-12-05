@@ -1,4 +1,4 @@
-import { roomReducer } from "@/components/room/roomReducer";
+import { roomReducer } from "@/contexts/roomReducer";
 import { useDatabaseFetchAllRooms } from "@/data/dbReader";
 import { createContext, useContext, useReducer, useState, type Dispatch, type SetStateAction } from "react";
 import { Outlet } from "react-router-dom";

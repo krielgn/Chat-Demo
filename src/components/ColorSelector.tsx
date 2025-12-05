@@ -41,7 +41,6 @@ interface ColorSelectorStyleProps {
     visible: boolean
 }
 interface ColorSelectorProps {
-    //onChange: Function,
     startColor?: ColorValueHex,
     ref: RefObject<HTMLInputElement | null>,
     className: string;
@@ -57,7 +56,6 @@ interface ColorSelectorProps {
     }
 
     function handleColorChange(colors : any){
-        //onChange('color', colors.hex);
         setSelectedColor(colors.hex);
     }
 

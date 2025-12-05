@@ -9,7 +9,7 @@ const styles = createUseStyles({
         alignItems: 'flex-end',
         height: '50vh'
     }
-})
+});
 
 export default function Chat(){
     const css = styles();

@@ -36,8 +36,9 @@ export async function updateRoomListDB(roomId: string, user: User, isJoining: bo
     //DB change
     let output = updateDoc(doc(fs, "rooms", roomId), {
         userList: (isJoining ? arrayUnion(user.userId) : arrayRemove(user.userId))
-    }).then(()=>{
-
+    }).catch((error) => {
+        console.log("Error in updateRoomListDB: " + error);
+        return {status: "error", message: "error"};
     });
     return output;
 }
@@ -50,7 +51,6 @@ type DBUpdateOptions = {
 // Fetch individual room for roomList components
 export function useDatabaseFetchSingleRoom({roomId, enabled = true}: DBUpdateOptions){
     const [data, setData] = useState<Room | null>(null);
-    const user = useUserContext();
     
     useEffect(()=>{
         if (!enabled){
@@ -60,10 +60,6 @@ export function useDatabaseFetchSingleRoom({roomId, enabled = true}: DBUpdateOpt
         const off = onSnapshot(doc(fs, "rooms", roomId), (doc) => {
             const data = doc.data();
             let r = (data ? new Room(roomId, data.name, data.hostId, data.userList) : null);
-            // if doc is null, call delete so the user context gets updated
-            if (r == null) {
-                user.user.leaveRoomArray(roomId)
-            }
             setData(r);
         });
         
@@ -88,6 +84,8 @@ export function useDatabaseFetchAllRooms(roomListInitializer: (x:string[])=>void
                 roomIds.push(doc.id);
             });
             if (init){
+                // If we get anything on first load, update the user context.
+                // (Ex: User joining room, closing app, then opening app again before host deletes room)
                 userContext.updateUserRooms(userContext.user)
             }
             roomListInitializer(roomIds);

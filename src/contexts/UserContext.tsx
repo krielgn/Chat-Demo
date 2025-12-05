@@ -21,8 +21,10 @@ const UserContextProvider = ({children}: {children: ReactNode}) => {
         }));
     }
 
+    // The only thing expected to regularly change in the User state is its room lists.
     const updateUserRooms = (userDetails: User) => {
         const newUser = userDetails;
+        // Update our current object immediately
         user.hostedRoom = userDetails.hostedRoom;
         user.joinedRooms = userDetails.joinedRooms;
         setUser(newUser);
@@ -30,7 +32,7 @@ const UserContextProvider = ({children}: {children: ReactNode}) => {
 
     useEffect(() => {
         const onBeforeUnload = () => {
-            // Clear created room on leaving tab
+            // When we leave the site or close a tab, clear the room from the database.
             if (user.hostedRoom){
                 console.log("un...");
                 deleteRoomDB(user.hostedRoom.roomId || "");
