@@ -19,7 +19,7 @@ export default defineConfig(({mode}) => {
       'import.meta.env.FB_MESSAGING_SENDER_ID': JSON.stringify(env.FB_MESSAGING_SENDER_ID),
       'import.meta.env.FB_APP_ID': JSON.stringify(env.FB_APP_ID),
     },
-    base: "/Chat-Demo",
+    base: '/Chat-Demo/',
     plugins: [react()],
     resolve: {
       alias: {
