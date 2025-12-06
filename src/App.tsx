@@ -12,7 +12,7 @@ import RoomContextProvider from './contexts/RoomContext'
 
   createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/Chat-Demo/'>
       <UserContextProvider>
         <Routes>
           <Route path="/" element={<Login/>}/>
