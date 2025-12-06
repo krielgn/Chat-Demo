@@ -4,6 +4,7 @@
 Session based WebRTC chatroom:
  - [peerjs](https://peerjs.com/) for connections
  - Each client can host one room and join unlimited
+   - There's no 'real' login, users information is determined by a cookie that's set on the login page and remain logged in until the cookie is cleared. For a single person to test, open multiple browsers / private mode.
  - Room information (name, host, users) is stored in Firebase
    - Rooms are deleted / left when the session is closed
  - Messages are per-session, and stored in the browser (cleared on session end _and_ room delete)
