@@ -18,16 +18,15 @@ const styles = createUseStyles({
     popup: {
         alignItems: 'center',
         display:"flex",
-        flexDirection: 'row',
+        
         justifyContent: 'space-around',
         backgroundColor: '#242424',
 
-        colorScheme: 'light dark',
         borderRadius: 6,        
         outline: 'black',
 
         height: '3.5em',
-        width:'19em',
+        width:'21em',
     },
     close: {
         cursor: 'pointer',
@@ -78,10 +77,10 @@ export default function RoomList() {
         <button  disabled={userContext.user.hostedRoom ? true : false} 
             onClick={() => {setOpenPopup(!openPopup)}}>Create Room</button>
 
-        <Popup open={openPopup} position={"center center"} overlayStyle={{backgroundColor: "#80808054"}} modal>
+        <Popup open={openPopup} position={"center center"} modal>
             <button className={css.close} onClick={() => {setOpenPopup(!openPopup)}}>&times;</button>
             <div className={css.popup} >
-                <input ref={roomCreateRef} type='text'></input>                
+                <input style={{width: "50%"}} ref={roomCreateRef} type='text'></input>                
                 <button onClick={(evt)=> {handleCreateRoom(evt);}}>Create Room</button>
             </div>
         </Popup>

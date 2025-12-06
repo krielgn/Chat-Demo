@@ -133,7 +133,9 @@ export class User implements UserProps {
     }
     // When leaving a room manually (via button), inform the room object so the tabs render properly
     leaveRoom(room: Room) {
-        room.userLeave(this.userId);   
+        room.userLeave(this.userId);
+        this.joinedRooms = this.joinedRooms.filter(x => { x.roomId == room.roomId});
+        this.updateUser();
     }
 
     // Any disconnected rooms will be noticed here, and removed from joinedRooms.
