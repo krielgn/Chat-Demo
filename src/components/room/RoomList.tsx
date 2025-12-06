@@ -77,7 +77,7 @@ export default function RoomList() {
         <button  disabled={userContext.user.hostedRoom ? true : false} 
             onClick={() => {setOpenPopup(!openPopup)}}>Create Room</button>
 
-        <Popup open={openPopup} position={"center center"} modal>
+        <Popup open={openPopup} position={"center center"} modal overlayStyle={{backgroundColor:'#a1a1a170'}}>
             <button className={css.close} onClick={() => {setOpenPopup(!openPopup)}}>&times;</button>
             <div className={css.popup} >
                 <input style={{width: "50%"}} ref={roomCreateRef} type='text'></input>                
