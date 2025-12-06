@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from "path";
 
 export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, process.cwd(), ['FB_']);
-  console.log(env)
+  const env = loadEnv(mode, process.cwd(), ["FB_", "RELAY_"]);
   return {
     define: {
       'import.meta.env.RELAY_SERVER': JSON.stringify(env.RELAY_SERVER),
